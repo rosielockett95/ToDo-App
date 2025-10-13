@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Todo app</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-image"></div>
+    <section class="main">
+      <h2 class="todo-header" aria-label="todo-header">
+        Todo
+        <img src="images/icon-moon.svg" />
+      </h2>
+
+      <div class="todo-container">
+        <div class="todo-entry" aria-label="todo-entry">
+          <ul class="todo-list" id="todo-list">
+            <li class="todo-item">
+              <label class="todo-check">
+                <input type="checkbox" class="todo-checkbox" />
+              </label>
+              <input
+                type="text"
+                class="todo-text"
+                placeholder="Create a new todo..."
+                aria-label="Todo item"
+              />
+            </li>
+          </ul>
+        </div>
+
+        <div class="todo-footer">
+          <div>
+            <p>
+              <!-- Add dynamic number -->
+              items left
+            </p>
+          </div>
+          <div>
+            <button id="all">All</button>
+            <button id="active">Active</button>
+            <button id="completed">Completed</button>
+          </div>
+          <div>
+            <button>Clear Completed</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="re-order-container">Drag and drop to reorder list</div>
+    </section>
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+  </body>
+  <script src="index.js"></script>
+</html>
