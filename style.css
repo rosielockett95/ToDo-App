@@ -15,7 +15,7 @@ body {
 
 .main {
   position: absolute;
-  top: 15%;
+  top: 5%;
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 400px;
@@ -31,9 +31,11 @@ body {
 .todo-container {
   display: flex;
   flex-direction: column;
+  position: fixed;
 }
 
-.todo-item {
+.todo-item,
+.todo-item-initial {
   display: flex;
   align-items: center;
   background-color: white;
@@ -80,7 +82,7 @@ button {
 
 .re-order-container {
   text-align: center;
-  color: hsl(233, 11%, 84%);
+  color: hsl(236, 9%, 61%);
   font-size: 0.8rem;
 }
 

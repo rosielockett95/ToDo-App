@@ -1,9 +1,6 @@
 //  View the optimal layout for the app depending on their device's screen size
 // - See hover states for all interactive elements on the page
 
-// - Filter by all/active/complete todos
-// - Clear all completed todos
-// - Toggle light and dark mode
 // - **Bonus**: Drag and drop to reorder items on the list
 // - Select all button, so can delete all at once
 // - Create the concept of lists or groups so that they can be categorised
@@ -18,6 +15,13 @@ const todoItem = document.querySelectorAll(".todo-item");
 let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
+
+// Update to do count when checkbox is ticked
+document.addEventListener("change", (event) => {
+  if (event.target.classList.contains("todo-checkbox")) {
+    updateToDoCount();
+  }
+});
 
 // - Add new todos to the list
 const onKeyDown = (e) => {
@@ -47,8 +51,9 @@ function addToDoToList() {
 
   toDoContainer.appendChild(newDiv);
   newDivArray.push(newDiv);
-  console.log(newDivArray);
   const todoItem = document.querySelector(".todo-item");
+  console.log(newDivArray.indexOf(newDiv));
+  updateToDoCount();
 
   toDoInput.value = "";
 
@@ -70,6 +75,7 @@ function addToDoToList() {
 toDoInput.addEventListener("keydown", onKeyDown);
 
 // - Filter by all/active/complete todos
+
 function updateTasks(filter) {
   const todoItem = document.querySelectorAll(".todo-item");
 
@@ -77,7 +83,6 @@ function updateTasks(filter) {
     const checkbox = todo.querySelector(".todo-checkbox");
     if (filter === "completed" && checkbox.checked) {
       todo.style.display = "flex";
-      console.log(true);
     } else if (filter === "active" && !checkbox.checked) {
       todo.style.display = "flex";
     } else if (filter === "all") {
@@ -91,3 +96,33 @@ function updateTasks(filter) {
 completedButton.addEventListener("click", () => updateTasks("completed"));
 activeButton.addEventListener("click", () => updateTasks("active"));
 allButton.addEventListener("click", () => updateTasks("all"));
+
+// - Clear all completed todos
+const clearCompletedButton = document.getElementById("clear-completed");
+clearCompletedButton.addEventListener("click", () => {
+  const todoItem = document.querySelectorAll(".todo-item");
+  todoItem.forEach((todo) => {
+    const checkbox = todo.querySelector(".todo-checkbox");
+    if (checkbox.checked) {
+      todo.remove();
+    }
+    updateToDoCount();
+  });
+});
+
+// Add dynamic number
+function updateToDoCount() {
+  const itemsLeftCount = document.getElementById("items-left-count");
+  const toDoCount = newDivArray.length;
+  const todoItem = document.querySelectorAll(".todo-item");
+  const activeItems = Array.from(todoItem).filter((todo) => {
+    const checkbox = todo.querySelector(".todo-checkbox");
+    return !checkbox.checked; // only count unchecked
+  });
+
+  itemsLeftCount.textContent = `${activeItems.length} item${
+    activeItems.length !== 1 ? "s" : ""
+  } left`;
+}
+
+// - Toggle light and dark mode
