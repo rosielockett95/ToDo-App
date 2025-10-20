@@ -38,16 +38,15 @@
     <section class="main">
       <h2 class="todo-header" aria-label="todo-header">
         Todo
-        <img src="images/icon-moon.svg" />
+        <button id="dark-mode-btn">
+          <img id="mode-btn" src="images/icon-moon.svg" />
+        </button>
       </h2>
 
       <div class="todo-container">
         <div class="todo-entry" aria-label="todo-entry">
           <ul class="todo-list" id="todo-list">
             <li class="todo-item-initial">
-              <label class="todo-check">
-                <input type="checkbox" class="todo-checkbox" />
-              </label>
               <input
                 type="text"
                 class="todo-text"
@@ -59,7 +58,9 @@
         </div>
 
         <div class="todo-footer">
-          <div>
+          <div class="select-container">
+            <button id="select-all-btn">Select All</button>
+            <button id="deselect-all-btn">Deselect All</button>
             <p id="items-left-count">
               <!-- Add dynamic number -->
               items left

@@ -2,7 +2,7 @@
 // - See hover states for all interactive elements on the page
 
 // - **Bonus**: Drag and drop to reorder items on the list
-// - Select all button, so can delete all at once
+
 // - Create the concept of lists or groups so that they can be categorised
 
 const toDoInput = document.querySelector(".todo-text");
@@ -63,9 +63,9 @@ function addToDoToList() {
   function checkboxClickHandler(e) {
     if (e.target.checked) {
       newDivText.style.textDecoration = "line-through";
-      setTimeout(() => {
-        e.target.closest(".todo-item").style.display = "none";
-      }, 500); // half a second delay
+      // setTimeout(() => {
+      //   e.target.closest(".todo-item").style.display = "none";
+      // }, 500); // half a second delay
     }
   }
 
@@ -125,4 +125,34 @@ function updateToDoCount() {
   } left`;
 }
 
+// - Select all button, so can delete all at once
+const selectAllBtn = document.getElementById("select-all-btn");
+const deselectAllBtn = document.getElementById("deselect-all-btn");
+
+selectAllBtn.addEventListener("click", () => {
+  const checkboxElements = document.querySelectorAll(".todo-checkbox");
+  checkboxElements.forEach((checkbox) => {
+    checkbox.checked = true;
+  });
+});
+
+deselectAllBtn.addEventListener("click", () => {
+  const checkboxElements = document.querySelectorAll(".todo-checkbox");
+  checkboxElements.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+});
+
 // - Toggle light and dark mode
+
+const darkModeBtn = document.getElementById("dark-mode-btn");
+const btnEl = document.getElementById("mode-btn");
+
+darkModeBtn.addEventListener("click", () => {
+  if (btnEl.src.includes("images/icon-moon.svg")) {
+    btnEl.src = "images/icon-sun.svg";
+  } else {
+    btnEl.src = "images/icon-moon.svg";
+  }
+  document.documentElement.classList.toggle("dark");
+});
