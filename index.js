@@ -12,6 +12,8 @@ const allButton = document.getElementById("all");
 const activeButton = document.getElementById("active");
 const completedButton = document.getElementById("completed");
 const todoItem = document.querySelectorAll(".todo-item");
+const dropDownBtn = document.querySelector(".dropbtn");
+const dropDownContent = document.querySelector(".drop-down-menu-content");
 let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
@@ -155,4 +157,8 @@ darkModeBtn.addEventListener("click", () => {
     btnEl.src = "images/icon-moon.svg";
   }
   document.documentElement.classList.toggle("dark");
+});
+
+dropDownBtn.addEventListener("click", () => {
+  dropDownContent.classList.toggle("hidden");
 });
