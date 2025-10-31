@@ -4,9 +4,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const colors = require("colors");
+const cors = require("cors");
 const Todo = require("./models/Todo");
 const todoRoutes = require("./routes/todoRoutes");
 
+app.use(cors());
+app.use(express.json());
 app.use("/api/todos", todoRoutes);
 
 console.log("MONGO_URI from .env:", process.env.MONGO_URI);
