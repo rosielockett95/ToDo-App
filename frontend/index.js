@@ -5,8 +5,10 @@
 
 // - Create the concept of lists or groups so that they can be categorised
 
+const API_URL = "http://localhost:3000/api/todos";
+
 const toDoInput = document.querySelector(".todo-text");
-const toDoContainer = document.querySelector(".todo-entry");
+const toDoContainer = document.querySelector(".todo-list");
 const checkbox = document.querySelector(".todo-checkbox");
 const allButton = document.getElementById("all");
 const activeButton = document.getElementById("active");
@@ -17,6 +19,22 @@ const dropDownContent = document.querySelector(".drop-down-menu-content");
 let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
+
+// Load todos from backend
+async function loadTodos() {
+  try {
+    const res = await fetch(API_URL);
+    const todos = await res.json();
+
+    // clear current items
+    // toDoContainer.innerHTML = "";
+
+    todos.forEach((todo) => renderTodo(todo));
+    updateToDoCount();
+  } catch (err) {
+    console.error("Error loading todos:", err);
+  }
+}
 
 // Update to do count when checkbox is ticked
 document.addEventListener("change", (event) => {
@@ -32,46 +50,25 @@ const onKeyDown = (e) => {
   }
 };
 
-function addToDoToList() {
-  let todoText = toDoInput.value;
+async function addToDoToList() {
+  const text = toDoInput.value.trim();
+  if (!text) return;
 
-  const newDiv = document.createElement("div");
-  newDiv.className = "todo-item";
-  newDiv.innerHTML = `
-            <li>
-              <label class="todo-check">
-                <input type="checkbox" class="todo-checkbox" />
-              </label>
-              <input 
-                type="text"
-                class="todo-text"
-                placeholder="${todoText}"
-                aria-label="Todo item"
-              />
-            </li>
-         `;
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
 
-  toDoContainer.appendChild(newDiv);
-  newDivArray.push(newDiv);
-  const todoItem = document.querySelector(".todo-item");
-  console.log(newDivArray.indexOf(newDiv));
-  updateToDoCount();
+    const savedTodo = await res.json();
 
-  toDoInput.value = "";
-
-  let newDivCheckbox = newDiv.querySelector(".todo-checkbox");
-  let newDivText = newDiv.querySelector(".todo-text");
-
-  function checkboxClickHandler(e) {
-    if (e.target.checked) {
-      newDivText.style.textDecoration = "line-through";
-      // setTimeout(() => {
-      //   e.target.closest(".todo-item").style.display = "none";
-      // }, 500); // half a second delay
-    }
+    renderTodo(savedTodo); // render using the new helper
+    updateToDoCount();
+    toDoInput.value = "";
+  } catch (err) {
+    console.error("Error adding todo:", err);
   }
-
-  newDivCheckbox.addEventListener("click", checkboxClickHandler);
 }
 
 toDoInput.addEventListener("keydown", onKeyDown);
@@ -162,3 +159,65 @@ darkModeBtn.addEventListener("click", () => {
 dropDownBtn.addEventListener("click", () => {
   dropDownContent.classList.toggle("hidden");
 });
+
+function renderTodo(todo) {
+  const newDiv = document.createElement("div");
+  newDiv.className = "todo-item";
+  newDiv.dataset.id = todo._id; // store MongoDB ID for later actions
+  newDiv.innerHTML = `
+    <li>
+      <label class="todo-check">
+        <input type="checkbox" class="todo-checkbox" ${
+          todo.completed ? "checked" : ""
+        } />
+      </label>
+      <input 
+        type="text"
+        class="todo-text"
+        value="${todo.text}"
+        disabled
+      />
+      <button class="delete-btn">✕</button>
+    </li>
+  `;
+
+  // checkbox toggle support
+  const checkBox = newDiv.querySelector(".todo-checkbox");
+  const deleteBtn = newDiv.querySelector(".delete-btn");
+  const todoTextEl = newDiv.querySelector(".todo-text");
+
+  checkBox.addEventListener("change", async (e) => {
+    const id = newDiv.dataset.id;
+    const completed = e.target.checked;
+
+    try {
+      await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed }),
+      });
+      todoTextEl.style.textDecoration = completed ? "line-through" : "none";
+      updateToDoCount();
+    } catch (err) {
+      console.error("Toggle error:", err);
+    }
+  });
+
+  // delete button
+  deleteBtn.addEventListener("click", async () => {
+    const id = newDiv.dataset.id;
+    try {
+      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      newDiv.remove();
+      updateToDoCount();
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  });
+
+  // append item into the list
+  // make sure `toDoContainer` is the <ul> or list wrapper
+  toDoContainer.appendChild(newDiv);
+}
+
+loadTodos();
