@@ -44,35 +44,36 @@
       </h2>
 
       <div class="todo-container">
-        <div class="todo-entry" aria-label="todo-entry">
-          <li class="todo-item-initial">
-            <input
-              type="text"
-              class="todo-text"
-              placeholder="Create a new todo..."
-              aria-label="Todo item"
-            />
-          </li>
+        <li class="todo-item-initial">
+          <input
+            type="text"
+            class="todo-text"
+            placeholder="Create a new todo..."
+            aria-label="Todo item"
+          />
+        </li>
+        <div class="todo-card">
+          <div class="select-container">
+            <button id="select-all-btn">Select All</button>
+            <button id="deselect-all-btn">Deselect All</button>
+          </div>
           <ul class="todo-list" id="todo-list"></ul>
         </div>
 
         <div class="todo-footer">
-          <div class="select-container">
-            <button id="select-all-btn">Select All</button>
-            <button id="deselect-all-btn">Deselect All</button>
+          <div class="footer-left">
             <p id="items-left-count">
               <!-- Add dynamic number -->
               items left
             </p>
           </div>
-          <div class="dropdown">
-            <button id="dropdownBtn" class="dropbtn">Menu ▼</button>
-            <div class="drop-down-menu-content hidden">
-              <button id="all">All</button>
-              <button id="active">Active</button>
-              <button id="completed">Completed</button>
-              <button id="clear-completed">Clear Completed</button>
-            </div>
+          <div class="dropdown footer-centre">
+            <button id="all">All</button>
+            <button id="active">Active</button>
+            <button id="completed">Completed</button>
+          </div>
+          <div>
+            <button id="clear-completed">Clear Completed</button>
           </div>
         </div>
         <div class="re-order-container">Drag and drop to reorder list</div>

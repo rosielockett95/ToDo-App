@@ -197,6 +197,7 @@ function renderTodo(todo) {
         body: JSON.stringify({ completed }),
       });
       todoTextEl.style.textDecoration = completed ? "line-through" : "none";
+      todoTextEl.style.opacity = completed ? "0.5" : "1";
       updateToDoCount();
     } catch (err) {
       console.error("Toggle error:", err);
