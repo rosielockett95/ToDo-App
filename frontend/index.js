@@ -156,14 +156,11 @@ darkModeBtn.addEventListener("click", () => {
   document.documentElement.classList.toggle("dark");
 });
 
-dropDownBtn.addEventListener("click", () => {
-  dropDownContent.classList.toggle("hidden");
-});
-
 function renderTodo(todo) {
   const newDiv = document.createElement("div");
   newDiv.className = "todo-item";
   newDiv.dataset.id = todo._id; // store MongoDB ID for later actions
+  newDiv.draggable = true;
   newDiv.innerHTML = `
     <li>
       <label class="todo-check">
@@ -222,3 +219,54 @@ function renderTodo(todo) {
 }
 
 loadTodos();
+
+let draggedItem = null;
+
+// When drag starts
+toDoContainer.addEventListener("dragstart", (e) => {
+  if (e.target.classList.contains("todo-item")) {
+    draggedItem = e.target;
+    e.target.classList.add("dragging");
+  }
+});
+
+// Remove visual dragging effect
+toDoContainer.addEventListener("dragend", (e) => {
+  if (e.target.classList.contains("todo-item")) {
+    e.target.classList.remove("dragging");
+  }
+});
+
+// Allow dropping and reorder dynamically
+toDoContainer.addEventListener("dragover", (e) => {
+  e.preventDefault(); // Necessary for `drop` to fire
+
+  const afterElement = getDragAfterElement(toDoContainer, e.clientY);
+  const current = document.querySelector(".dragging");
+
+  if (!afterElement) {
+    toDoContainer.appendChild(current);
+  } else {
+    toDoContainer.insertBefore(current, afterElement);
+  }
+});
+
+// Determine the element after which we’ll drop
+function getDragAfterElement(container, y) {
+  const draggableElements = [
+    ...container.querySelectorAll(".todo-item:not(.dragging)"),
+  ];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
