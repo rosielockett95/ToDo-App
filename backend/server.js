@@ -4,15 +4,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const colors = require("colors");
-const cors = require("cors");
 const Todo = require("./models/Todo");
 const todoRoutes = require("./routes/todoRoutes");
 
+const cors = require("cors");
+
+// explicitly allow your Netlify domain
 app.use(
   cors({
-    origin: ["https://genuine-douhua-7899ca.netlify.app/"], // replace with your Netlify domain
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    origin: "https://genuine-douhua-7899ca.netlify.app",
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
   })
 );
 app.use(express.json());
