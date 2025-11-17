@@ -8,7 +8,13 @@ const cors = require("cors");
 const Todo = require("./models/Todo");
 const todoRoutes = require("./routes/todoRoutes");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://genuine-douhua-7899ca.netlify.app/"], // replace with your Netlify domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/api/todos", todoRoutes);
 
