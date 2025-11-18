@@ -159,8 +159,9 @@ darkModeBtn.addEventListener("click", () => {
 function renderTodo(todo) {
   const newDiv = document.createElement("div");
   newDiv.className = "todo-item";
-  newDiv.dataset.id = todo._id; // store MongoDB ID for later actions
+  newDiv.dataset.id = todo._id;
   newDiv.draggable = true;
+
   newDiv.innerHTML = `
     <li>
       <label class="todo-check">
@@ -168,7 +169,7 @@ function renderTodo(todo) {
           todo.completed ? "checked" : ""
         } />
       </label>
-      <input 
+      <input
         type="text"
         class="todo-text"
         value="${todo.text}"
@@ -178,15 +179,18 @@ function renderTodo(todo) {
     </li>
   `;
 
-  // checkbox toggle support
   const checkBox = newDiv.querySelector(".todo-checkbox");
   const deleteBtn = newDiv.querySelector(".delete-btn");
   const todoTextEl = newDiv.querySelector(".todo-text");
 
-  if (todo.completed) {
+  // ✅ only apply class if todo.completed is *true*
+  if (todo.completed === true) {
     todoTextEl.classList.add("completed");
+  } else {
+    todoTextEl.classList.remove("completed");
   }
 
+  // ✅ toggle the completion state on checkbox change
   checkBox.addEventListener("change", async (e) => {
     const id = newDiv.dataset.id;
     const completed = e.target.checked;
@@ -197,17 +201,15 @@ function renderTodo(todo) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed }),
       });
-      todoTextEl.style.textDecoration = completed ? "line-through" : "none";
-      todoTextEl.style.opacity = completed ? "0.5" : "1";
+
+      // toggle CSS class on change
+      todoTextEl.classList.toggle("completed", completed);
       updateToDoCount();
     } catch (err) {
       console.error("Toggle error:", err);
     }
   });
 
-  todoTextEl.classList.toggle("completed", completed);
-
-  // delete button
   deleteBtn.addEventListener("click", async () => {
     const id = newDiv.dataset.id;
     try {
@@ -219,8 +221,6 @@ function renderTodo(todo) {
     }
   });
 
-  // append item into the list
-  // make sure `toDoContainer` is the <ul> or list wrapper
   toDoContainer.appendChild(newDiv);
 }
 
