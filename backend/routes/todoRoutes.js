@@ -35,6 +35,28 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// PATCH (update one or more fields of a todo)
+router.patch("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { completed, text } = req.body;
+
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      id,
+      { ...(completed !== undefined && { completed }), ...(text && { text }) },
+      { new: true }
+    );
+
+    if (!updatedTodo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    res.json(updatedTodo);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 // DELETE todo
 router.delete("/:id", async (req, res) => {
   try {
