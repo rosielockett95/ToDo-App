@@ -5,7 +5,7 @@
 
 // - Create the concept of lists or groups so that they can be categorised
 
-const API_URL = "https://todo-app-655q.onrender.com";
+const API_URL = "https://todo-app-655q.onrender.com/api/todos";
 
 const toDoInput = document.querySelector(".todo-text");
 const toDoContainer = document.querySelector(".todo-list");
