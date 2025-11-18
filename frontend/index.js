@@ -183,6 +183,10 @@ function renderTodo(todo) {
   const deleteBtn = newDiv.querySelector(".delete-btn");
   const todoTextEl = newDiv.querySelector(".todo-text");
 
+  if (todo.completed) {
+    todoTextEl.classList.add("completed");
+  }
+
   checkBox.addEventListener("change", async (e) => {
     const id = newDiv.dataset.id;
     const completed = e.target.checked;
@@ -200,6 +204,8 @@ function renderTodo(todo) {
       console.error("Toggle error:", err);
     }
   });
+
+  todoTextEl.classList.toggle("completed", completed);
 
   // delete button
   deleteBtn.addEventListener("click", async () => {
