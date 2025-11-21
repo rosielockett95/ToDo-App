@@ -25,6 +25,7 @@ body {
   text-decoration: line-through;
   opacity: 0.5;
 }
+
 .main {
   position: absolute;
   top: 5%;
@@ -244,4 +245,68 @@ button {
 
 .active {
   display: block;
+}
+
+/* Use max width px for media queries */
+
+@media (max-width: 600px) {
+  .main {
+    min-width: 340px;
+  }
+
+  .background-image {
+    background-image: url("images/bg-mobile-light.jpg");
+    width: 100%;
+    height: 40vw;
+    background-size: cover;
+    background-position: top;
+  }
+
+  .dark .background-image {
+    background-image: url("images/bg-mobile-dark.jpg");
+    width: 100%;
+    height: 40vw;
+    background-size: cover;
+    background-position: top;
+  }
+
+  .todo-container {
+    min-width: 330px;
+  }
+
+  .todo-header {
+    letter-spacing: 10px;
+    font-size: 1.5rem;
+  }
+
+  #mode-btn {
+    width: 20px;
+  }
+
+  .todo-item-initial {
+    margin-bottom: 20px;
+  }
+
+  .dropdown {
+    order: 3;
+    margin-top: 20px;
+  }
+
+  .todo-footer {
+    flex-wrap: wrap;
+  }
+
+  .dropdown.footer-centre {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .background-image {
+    background-image: url("images/bg-mobile-light.jpg");
+  }
 }
