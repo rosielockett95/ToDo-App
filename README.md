@@ -4,19 +4,19 @@ This project was created as part of my learning journey into software developmen
 
 Key Features -
 
-Add/delete todo's
-Filter todo's 
-Toggle light/dark mode
-Drag and drop functionality
-Responsive layout
+- Add/delete todo's
+- Filter todo's
+- Toggle light/dark mode
+- Drag and drop functionality
+- Responsive layout
 
 Techstack used - 
 
-HTML
-CSS
-Javascript (ES6+) 
-Node.js
-Express 
-MongoDB
+- HTML
+- CSS
+- Javascript (ES6+) 
+- Node.js
+- Express 
+- MongoDB
 
 
