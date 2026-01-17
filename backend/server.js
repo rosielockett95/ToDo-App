@@ -9,13 +9,25 @@ const todoRoutes = require("./routes/todoRoutes");
 
 const cors = require("cors");
 
-// explicitly allow your Netlify domain
+const allowedOrigins = [
+  "https://genuine-douhua-7899ca.netlify.app",
+  "http://localhost:5502",
+  "http://127.0.0.1:5502",
+];
+
 app.use(
   cors({
-    origin: "https://genuine-douhua-7899ca.netlify.app",
+    origin: function (origin, callback) {
+      // allow requests with no origin (Postman, mobile apps, curl)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
-  })
+  }),
 );
 app.use(express.json());
 app.use("/api/todos", todoRoutes);
