@@ -1,15 +1,8 @@
-//  View the optimal layout for the app depending on their device's screen size
-// - See hover states for all interactive elements on the page
-
-// - **Bonus**: Drag and drop to reorder items on the list
-
-// - Create the concept of lists or groups so that they can be categorised
-
 const API_URL = "https://todo-app-655q.onrender.com/api/todos";
 
 const toDoInput = document.querySelector(".todo-text");
 const toDoContainer = document.querySelector(".todo-list");
-const checkbox = document.querySelector(".todo-checkbox");
+// const checkbox = document.querySelector(".todo-checkbox");
 const allButton = document.getElementById("all");
 const activeButton = document.getElementById("active");
 const completedButton = document.getElementById("completed");
@@ -27,7 +20,7 @@ async function loadTodos() {
     const todos = await res.json();
 
     // clear current items
-    // toDoContainer.innerHTML = "";
+    toDoContainer.innerHTML = "";
 
     todos.forEach((todo) => renderTodo(todo));
     updateToDoCount();
@@ -98,15 +91,23 @@ allButton.addEventListener("click", () => updateTasks("all"));
 
 // - Clear all completed todos
 const clearCompletedButton = document.getElementById("clear-completed");
-clearCompletedButton.addEventListener("click", () => {
-  const todoItem = document.querySelectorAll(".todo-item");
-  todoItem.forEach((todo) => {
-    const checkbox = todo.querySelector(".todo-checkbox");
-    if (checkbox.checked) {
-      todo.remove();
-    }
+clearCompletedButton.addEventListener("click", async () => {
+  try {
+    await fetch(`${API_URL}/completed`, {
+      method: "DELETE",
+    });
+
+    document.querySelectorAll(".todo-item").forEach((todo) => {
+      const checkbox = todo.querySelector(".todo-checkbox");
+      if (checkbox.checked) {
+        todo.remove();
+      }
+    });
+
     updateToDoCount();
-  });
+  } catch (err) {
+    console.error("Failed to clear completed todos:", err);
+  }
 });
 
 // Add dynamic number
@@ -183,14 +184,12 @@ function renderTodo(todo) {
   const deleteBtn = newDiv.querySelector(".delete-btn");
   const todoTextEl = newDiv.querySelector(".todo-text");
 
-  // ✅ only apply class if todo.completed is *true*
   if (todo.completed === true) {
     todoTextEl.classList.add("completed");
   } else {
     todoTextEl.classList.remove("completed");
   }
 
-  // ✅ toggle the completion state on checkbox change
   checkBox.addEventListener("change", async (e) => {
     const id = newDiv.dataset.id;
     const completed = e.target.checked;
@@ -228,7 +227,6 @@ loadTodos();
 
 let draggedItem = null;
 
-// When drag starts
 toDoContainer.addEventListener("dragstart", (e) => {
   if (e.target.classList.contains("todo-item")) {
     draggedItem = e.target;
@@ -236,16 +234,14 @@ toDoContainer.addEventListener("dragstart", (e) => {
   }
 });
 
-// Remove visual dragging effect
 toDoContainer.addEventListener("dragend", (e) => {
   if (e.target.classList.contains("todo-item")) {
     e.target.classList.remove("dragging");
   }
 });
 
-// Allow dropping and reorder dynamically
 toDoContainer.addEventListener("dragover", (e) => {
-  e.preventDefault(); // Necessary for `drop` to fire
+  e.preventDefault();
 
   const afterElement = getDragAfterElement(toDoContainer, e.clientY);
   const current = document.querySelector(".dragging");
@@ -257,7 +253,6 @@ toDoContainer.addEventListener("dragover", (e) => {
   }
 });
 
-// Determine the element after which we’ll drop
 function getDragAfterElement(container, y) {
   const draggableElements = [
     ...container.querySelectorAll(".todo-item:not(.dragging)"),
@@ -273,6 +268,6 @@ function getDragAfterElement(container, y) {
         return closest;
       }
     },
-    { offset: Number.NEGATIVE_INFINITY }
+    { offset: Number.NEGATIVE_INFINITY },
   ).element;
 }

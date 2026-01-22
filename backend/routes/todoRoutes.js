@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // POST new todo
 router.post("/", async (req, res) => {
   try {
-    const newTodo = new Todo({ text: req.body.text, completed: false }); // <-- add completed: false
+    const newTodo = new Todo({ text: req.body.text, completed: false });
     const saved = await newTodo.save();
     res.status(201).json(saved);
   } catch (err) {
@@ -44,7 +44,7 @@ router.patch("/:id", async (req, res) => {
     const updatedTodo = await Todo.findByIdAndUpdate(
       id,
       { ...(completed !== undefined && { completed }), ...(text && { text }) },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedTodo) {
@@ -54,6 +54,20 @@ router.patch("/:id", async (req, res) => {
     res.json(updatedTodo);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+// DELETE all completed todos
+router.delete("/completed", async (req, res) => {
+  try {
+    const result = await Todo.deleteMany({ completed: true });
+
+    res.json({
+      message: "Completed todos deleted",
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
