@@ -13,6 +13,19 @@ let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
 
+const note = document.querySelector(".loading-note");
+
+// Only show the explanation if it's actually slow
+const slowLoadTimer = setTimeout(() => {
+  note.classList.remove("hidden");
+}, 4000);
+
+// When the app is ready
+function onAppReady() {
+  clearTimeout(slowLoadTimer);
+  document.getElementById("app-loading").style.display = "none";
+}
+
 // Load todos from backend
 async function loadTodos() {
   try {
@@ -24,6 +37,7 @@ async function loadTodos() {
 
     todos.forEach((todo) => renderTodo(todo));
     updateToDoCount();
+    onAppReady();
   } catch (err) {
     console.error("Error loading todos:", err);
   }
