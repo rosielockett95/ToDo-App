@@ -13,6 +13,13 @@ body {
   height: clamp(250px, 40vw, 500px);
 }
 
+.todo-add {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  font-size: 1.2rem;
+  z-index: 2;
+}
 .dark .background-image {
   background-image: url("images/bg-desktop-dark.jpg");
   width: 100%;
@@ -65,6 +72,7 @@ body {
 
 .todo-item-initial {
   margin-bottom: 8px;
+  position: relative;
 }
 
 .dark .todo-item,

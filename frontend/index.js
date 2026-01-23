@@ -57,6 +57,10 @@ const onKeyDown = (e) => {
   }
 };
 
+const addButton = document.querySelector(".todo-add");
+
+addButton.addEventListener("click", addToDoToList);
+
 async function addToDoToList() {
   const text = toDoInput.value.trim();
   if (!text) return;
