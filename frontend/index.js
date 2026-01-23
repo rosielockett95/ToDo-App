@@ -143,11 +143,26 @@ function updateToDoCount() {
 const selectAllBtn = document.getElementById("select-all-btn");
 const deselectAllBtn = document.getElementById("deselect-all-btn");
 
-selectAllBtn.addEventListener("click", () => {
-  const checkboxElements = document.querySelectorAll(".todo-checkbox");
-  checkboxElements.forEach((checkbox) => {
-    checkbox.checked = true;
+async function updateCompleted(todoEl, completed) {
+  const id = todoEl.dataset.id;
+
+  await fetch(`${API_URL}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ completed }),
   });
+}
+
+selectAllBtn.addEventListener("click", async () => {
+  const todos = document.querySelectorAll(".todo-item");
+
+  for (const todo of todos) {
+    const checkbox = todo.querySelector(".todo-checkbox");
+    if (!checkbox.checked) {
+      checkbox.checked = true;
+      await updateCompleted(todo, true);
+    }
+  }
 });
 
 deselectAllBtn.addEventListener("click", () => {
