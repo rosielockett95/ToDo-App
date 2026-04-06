@@ -319,7 +319,7 @@ logoutButton.addEventListener("click", async () => {
 
     // Redirect after logout
 
-    window.location.href = "http://127.0.0.1:5502/frontend/html/login.html";
+    window.location.href = "https://genuine-douhua-7899ca.netlify.app/login";
   } catch (err) {
     errorEl.textContent = err.message;
   }

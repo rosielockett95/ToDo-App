@@ -46,7 +46,7 @@ form.addEventListener("submit", async (e) => {
 
     // Redirect after login
 
-    window.location.href = "http://127.0.0.1:5502/frontend/index.html";
+    window.location.href = "https://genuine-douhua-7899ca.netlify.app/";
   } catch (err) {
     errorEl.textContent = err.message;
   }
