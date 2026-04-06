@@ -11,6 +11,7 @@ const logoutButton = document.querySelector(".logout-button");
 let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
+const errorEl = document.getElementById("error");
 
 // Only show the explanation if it's actually slow
 const slowLoadTimer = setTimeout(() => {
