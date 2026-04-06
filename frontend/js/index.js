@@ -311,10 +311,13 @@ function getDragAfterElement(container, y) {
 
 logoutButton.addEventListener("click", async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/logout", {
-      method: "GET",
-      credentials: "include",
-    });
+    const res = await fetch(
+      "https://todo-app-655q.onrender.com/api/auth/logout",
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
 
     const data = await res.json();
 
