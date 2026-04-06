@@ -3,6 +3,7 @@ body {
   margin: 0 auto;
   font-family: "Josefin Sans", sans-serif;
   font-optical-sizing: auto;
+  box-sizing: border-box;
 }
 
 .background-image {
@@ -47,6 +48,18 @@ body {
   text-transform: uppercase;
   letter-spacing: 12px;
   font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logout-button {
+  color: white;
+  transform: opacity 0.2s ease;
+}
+
+.logout-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 .todo-card {
@@ -254,6 +267,114 @@ button {
 
 .active {
   display: block;
+}
+
+/* Register Page */
+
+.margin {
+  margin-bottom: 28px;
+}
+
+.page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #e9ecff, #dcd2ff);
+}
+
+.form-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+#registerForm,
+#loginForm,
+#passwordForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+  gap: 1rem;
+  width: 100%;
+}
+
+#registerForm > input,
+#loginForm > input,
+#passwordForm > input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+#registerForm > input:focus,
+#loginForm > input:focus,
+#passwordForm > input:focus {
+  outline: none;
+  border-color: #7a5cff;
+  box-shadow: 0 0 0 3px rgba(122, 92, 255, 0.1);
+}
+
+.register-heading,
+.login-heading,
+.password-heading {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.reset-text {
+  color: #7a5cff;
+}
+
+#registerForm > a,
+#registerForm > a:active,
+#loginForm > a,
+#loginForm > a:active,
+#passwordForm > a,
+#passwordForm > a:active {
+  color: #7a5cff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+#registerForm > a:hover,
+#loginForm > a:hover,
+#passwordForm > a:hover {
+  text-decoration: underline;
+}
+
+.submit-btn {
+  margin-top: 0.5rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7a5cff, #5b3df5);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(122, 92, 255, 0.3);
 }
 
 /* Use max width px for media queries */

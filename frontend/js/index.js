@@ -1,19 +1,16 @@
 const API_URL = "https://todo-app-655q.onrender.com/api/todos";
-
 const toDoInput = document.querySelector(".todo-text");
 const toDoContainer = document.querySelector(".todo-list");
-// const checkbox = document.querySelector(".todo-checkbox");
 const allButton = document.getElementById("all");
 const activeButton = document.getElementById("active");
 const completedButton = document.getElementById("completed");
 const todoItem = document.querySelectorAll(".todo-item");
 const dropDownBtn = document.querySelector(".dropbtn");
 const dropDownContent = document.querySelector(".drop-down-menu-content");
+const logoutButton = document.querySelector(".logout-button");
 let newDivArray = [];
 let newDiv;
 let todoText = toDoInput.value;
-
-const note = document.querySelector(".loading-note");
 
 // Only show the explanation if it's actually slow
 const slowLoadTimer = setTimeout(() => {
@@ -74,7 +71,7 @@ async function addToDoToList() {
 
     const savedTodo = await res.json();
 
-    renderTodo(savedTodo); // render using the new helper
+    renderTodo(savedTodo);
     updateToDoCount();
     toDoInput.value = "";
   } catch (err) {
@@ -183,9 +180,9 @@ const btnEl = document.getElementById("mode-btn");
 
 darkModeBtn.addEventListener("click", () => {
   if (btnEl.src.includes("images/icon-moon.svg")) {
-    btnEl.src = "images/icon-sun.svg";
+    btnEl.src = "../images/icon-sun.svg";
   } else {
-    btnEl.src = "images/icon-moon.svg";
+    btnEl.src = "../images/icon-moon.svg";
   }
   document.documentElement.classList.toggle("dark");
 });
@@ -304,3 +301,26 @@ function getDragAfterElement(container, y) {
     { offset: Number.NEGATIVE_INFINITY },
   ).element;
 }
+
+logoutButton.addEventListener("click", async () => {
+  try {
+    const res = await fetch("http://localhost:3000/api/auth/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await res.json();
+
+    console.log("logged out successfully");
+
+    if (!res.ok) {
+      throw new Error(data.message);
+    }
+
+    // Redirect after logout
+
+    window.location.href = "http://127.0.0.1:5502/frontend/html/login.html";
+  } catch (err) {
+    errorEl.textContent = err.message;
+  }
+});

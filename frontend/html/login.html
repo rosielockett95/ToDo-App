@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <page class="page">
+      <div class="form-card-container">
+        <form id="loginForm">
+          <div>
+            <h1 class="login-heading">Login</h1>
+          </div>
+          <input type="email" id="email" placeholder="Email" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <a>Forgot password? Click here</a>
+          <button type="submit" class="submit-btn">Login</button>
+          <a href="http://127.0.0.1:5502/frontend/html/register.html"
+            >Not yet registered? Register here.</a
+          >
+        </form>
+      </div>
+
+      <p id="error"></p>
+    </page>
+    <script src="../js/login.js"></script>
+  </body>
+</html>
