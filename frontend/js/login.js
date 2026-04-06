@@ -19,14 +19,17 @@ form.addEventListener("submit", async (e) => {
   const password = document.getElementById("password").value;
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      "https://todo-app-655q.onrender.com/api/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ⭐ critical
+        body: JSON.stringify({ email, password }),
       },
-      credentials: "include", // ⭐ critical
-      body: JSON.stringify({ email, password }),
-    });
+    );
 
     const data = await res.json();
     // onAppReady();

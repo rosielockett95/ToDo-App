@@ -8,14 +8,17 @@ passwordForm.addEventListener("submit", async (e) => {
   const email = document.getElementById("email").value;
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/forgotpassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const res = await fetch(
+      "https://todo-app-655q.onrender.com/api/auth/forgotpassword",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // ⭐ critical
+        body: JSON.stringify({ email }),
       },
-      credentials: "include", // ⭐ critical
-      body: JSON.stringify({ email }),
-    });
+    );
 
     const data = await res.json();
 
