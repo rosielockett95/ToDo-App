@@ -26,7 +26,9 @@ function onAppReady() {
 // Load todos from backend
 async function loadTodos() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL, {
+      credentials: "include",
+    });
     const todos = await res.json();
 
     // clear current items
@@ -67,6 +69,7 @@ async function addToDoToList() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),
+      credentials: "include",
     });
 
     const savedTodo = await res.json();
@@ -110,6 +113,7 @@ clearCompletedButton.addEventListener("click", async () => {
   try {
     await fetch(`${API_URL}/completed`, {
       method: "DELETE",
+      credentials: "include",
     });
 
     document.querySelectorAll(".todo-item").forEach((todo) => {
@@ -151,6 +155,7 @@ async function updateCompleted(todoEl, completed) {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ completed }),
+    credentials: "include",
   });
 }
 
@@ -229,6 +234,7 @@ function renderTodo(todo) {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ completed }),
+        credentials: "include",
       });
 
       // toggle CSS class on change
