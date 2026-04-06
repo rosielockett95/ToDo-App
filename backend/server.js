@@ -4,8 +4,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose");
 const colors = require("colors");
+const cookieParser = require("cookie-parser");
 const Todo = require("./models/Todo");
 const todoRoutes = require("./routes/todoRoutes");
+const auth = require("./routes/auth");
 
 const cors = require("cors");
 
@@ -14,6 +16,12 @@ const allowedOrigins = [
   "http://localhost:5502",
   "http://127.0.0.1:5502",
 ];
+
+// Body parser
+app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -24,6 +32,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   }),
@@ -44,3 +53,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`.magenta);
 });
+
+app.use("/api/auth", auth);

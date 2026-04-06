@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Todo = require("../models/Todo");
 
+const { protect } = require("../middleware/auth");
+
 // GET all todos
-router.get("/", async (req, res) => {
+router.get("/", protect, async (req, res) => {
   try {
-    const todos = await Todo.find();
+    const todos = await Todo.find({ user: req.user.id });
     res.json(todos);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -13,9 +15,13 @@ router.get("/", async (req, res) => {
 });
 
 // POST new todo
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
   try {
-    const newTodo = new Todo({ text: req.body.text, completed: false });
+    const newTodo = new Todo({
+      text: req.body.text,
+      completed: false,
+      user: req.user.id,
+    });
     const saved = await newTodo.save();
     res.status(201).json(saved);
   } catch (err) {
@@ -24,11 +30,22 @@ router.post("/", async (req, res) => {
 });
 
 // PUT (update) todo
-router.put("/:id", async (req, res) => {
+router.put("/:id", protect, async (req, res) => {
   try {
+    const todo = await Todo.findById(req.params.id);
+
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Not authorised" });
+    }
+
     const updated = await Todo.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
     res.json(updated);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -36,20 +53,26 @@ router.put("/:id", async (req, res) => {
 });
 
 // PATCH (update one or more fields of a todo)
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", protect, async (req, res) => {
   try {
     const { id } = req.params;
     const { completed, text } = req.body;
+
+    const todo = await Todo.findById(id);
+
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Not authorised" });
+    }
 
     const updatedTodo = await Todo.findByIdAndUpdate(
       id,
       { ...(completed !== undefined && { completed }), ...(text && { text }) },
       { new: true },
     );
-
-    if (!updatedTodo) {
-      return res.status(404).json({ message: "Todo not found" });
-    }
 
     res.json(updatedTodo);
   } catch (err) {
@@ -58,9 +81,12 @@ router.patch("/:id", async (req, res) => {
 });
 
 // DELETE all completed todos
-router.delete("/completed", async (req, res) => {
+router.delete("/completed", protect, async (req, res) => {
   try {
-    const result = await Todo.deleteMany({ completed: true });
+    const result = await Todo.deleteMany({
+      completed: true,
+      user: req.user.id,
+    });
 
     res.json({
       message: "Completed todos deleted",
@@ -72,9 +98,21 @@ router.delete("/completed", async (req, res) => {
 });
 
 // DELETE todo
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", protect, async (req, res) => {
   try {
-    await Todo.findByIdAndDelete(req.params.id);
+    const todo = await Todo.findById(req.params.id);
+
+    // Check if todo exists
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Not authorised" });
+    }
+
+    await todo.deleteOne();
+
     res.json({ message: "Todo deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
