@@ -119,7 +119,9 @@ clearCompletedButton.addEventListener("click", async () => {
   try {
     await fetch(`${API_URL}/completed`, {
       method: "DELETE",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       // credentials: "include",
     });
 
@@ -263,7 +265,9 @@ function renderTodo(todo) {
     try {
       await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         // credentials: "include",
       });
       newDiv.remove();
