@@ -249,7 +249,10 @@ function renderTodo(todo) {
   deleteBtn.addEventListener("click", async () => {
     const id = newDiv.dataset.id;
     try {
-      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
       newDiv.remove();
       updateToDoCount();
     } catch (err) {
