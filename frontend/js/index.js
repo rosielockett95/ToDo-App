@@ -28,7 +28,9 @@ function onAppReady() {
 async function loadTodos() {
   try {
     const res = await fetch(API_URL, {
-      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
     const todos = await res.json();
 
@@ -68,7 +70,10 @@ async function addToDoToList() {
   try {
     const res = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({ text }),
       credentials: "include",
     });
@@ -114,7 +119,8 @@ clearCompletedButton.addEventListener("click", async () => {
   try {
     await fetch(`${API_URL}/completed`, {
       method: "DELETE",
-      credentials: "include",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      // credentials: "include",
     });
 
     document.querySelectorAll(".todo-item").forEach((todo) => {
@@ -154,7 +160,10 @@ async function updateCompleted(todoEl, completed) {
 
   await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
     body: JSON.stringify({ completed }),
     credentials: "include",
   });
@@ -233,7 +242,10 @@ function renderTodo(todo) {
     try {
       await fetch(`${API_URL}/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: JSON.stringify({ completed }),
         credentials: "include",
       });
@@ -251,7 +263,8 @@ function renderTodo(todo) {
     try {
       await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
-        credentials: "include",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        // credentials: "include",
       });
       newDiv.remove();
       updateToDoCount();
@@ -318,7 +331,8 @@ logoutButton.addEventListener("click", async () => {
       "https://todo-app-655q.onrender.com/api/auth/logout",
       {
         method: "GET",
-        credentials: "include",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        // credentials: "include",
       },
     );
 

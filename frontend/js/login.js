@@ -26,13 +26,13 @@ form.addEventListener("submit", async (e) => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // ⭐ critical
+        // credentials: "include", // ⭐ critical
         body: JSON.stringify({ email, password }),
       },
     );
 
     const data = await res.json();
-    // onAppReady();
+    localStorage.setItem("token", data.token);
 
     console.log("form submitted");
 
